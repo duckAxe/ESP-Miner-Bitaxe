@@ -10,6 +10,22 @@
         line-break: anywhere;
         font-family: 'Courier New', Courier, monospace;
     }
+
+    &.is-enlarged {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 999;
+      background: var(--surface-overlay);
+    }
+
+    .minimize-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
 }
 
 .ansi-red { color: #ff0000; }
