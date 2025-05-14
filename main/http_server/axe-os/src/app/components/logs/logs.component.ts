@@ -22,7 +22,7 @@ export class LogsComponent implements OnDestroy, AfterViewChecked {
 
   public stopScroll: boolean = false;
 
-  public isEnlarged: boolean = false;
+  public isExpanded: boolean = false;
 
   constructor(
     private websocketService: WebsocketService,

@@ -11,7 +11,7 @@
         font-family: 'Courier New', Courier, monospace;
     }
 
-    &.is-enlarged {
+    &.is-expanded {
       position: absolute;
       top: 0;
       left: 0;
@@ -21,7 +21,7 @@
       background: var(--surface-overlay);
     }
 
-    .minimize-button {
+    .close-button {
       position: absolute;
       top: 0;
       right: 0;

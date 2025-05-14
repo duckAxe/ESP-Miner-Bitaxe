@@ -48,8 +48,8 @@
                     {{showLogs ? 'Hide': 'Show'}} Logs
                 </button>
 
-                <button pButton (click)="isEnlarged = !isEnlarged" class="btn btn-secondary" *ngIf="showLogs">
-                    Enlarge Logs
+                <button pButton (click)="isExpanded = !isExpanded" class="btn btn-secondary" *ngIf="showLogs">
+                    Expand Logs
                 </button>
 
                 <button pButton class="btn btn-secondary" (click)="stopScroll = !stopScroll" *ngIf="showLogs">
@@ -57,9 +57,9 @@
                 </button>
             </h2>
 
-            <div *ngIf="showLogs" id="logs" #scrollContainer [ngClass]="{'is-enlarged': isEnlarged}">
+            <div *ngIf="showLogs" id="logs" #scrollContainer [ngClass]="{'is-expanded': isExpanded}">
                 <div *ngFor="let log of logs" [ngClass]="log.className">₿ {{log.text | ANSI}}</div>
-                <button pButton (click)="isEnlarged = !isEnlarged" class="minimize-button">Minimize</button>
+                <button pButton (click)="isExpanded = !isExpanded" class="close-button">Close</button>
             </div>
         </div>
     </div>
