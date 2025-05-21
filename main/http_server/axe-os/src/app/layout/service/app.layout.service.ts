@@ -164,7 +164,7 @@ export class LayoutService {
             this.state.staticMenuDesktopInactive =
                 !this.state.staticMenuDesktopInactive;
 
-            this.localStorageService.setBool('STATIC_MENU_DESKTOP_INACTIVE', this.state.staticMenuDesktopInactive);
+            this.localStorageService.setBool(STATIC_MENU_DESKTOP_INACTIVE, this.state.staticMenuDesktopInactive);
         } else {
             this.state.staticMenuMobileActive =
                 !this.state.staticMenuMobileActive;
@@ -229,6 +229,6 @@ export class LayoutService {
             return;
         }
 
-        this.state.staticMenuDesktopInactive = this.localStorageService.getBool('STATIC_MENU_DESKTOP_INACTIVE');
+        this.state.staticMenuDesktopInactive = this.localStorageService.getBool(STATIC_MENU_DESKTOP_INACTIVE);
     }
 }
