@@ -12,19 +12,13 @@
     }
 
     &.is-expanded {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 999;
-      background: var(--surface-overlay);
-    }
-
-    .close-button {
-      position: absolute;
-      top: 0;
-      right: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 999;
+        background: var(--surface-overlay);
     }
 }
 
