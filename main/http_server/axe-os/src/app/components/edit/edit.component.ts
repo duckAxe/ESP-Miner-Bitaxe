@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { forkJoin, startWith, Subject, takeUntil } from 'rxjs';
+import { forkJoin, startWith, Subject, takeUntil, pairwise } from 'rxjs';
 import { LoadingService } from 'src/app/services/loading.service';
 import { SystemService } from 'src/app/services/system.service';
 import { eASICModel } from 'src/models/enum/eASICModel';
@@ -74,10 +74,15 @@ export class EditComponent implements OnInit, OnDestroy {
     });
 
     this.displayTimeoutControl = new FormControl();
-    this.displayTimeoutControl.valueChanges.subscribe(value => {
+    this.displayTimeoutControl.valueChanges.pipe(pairwise()).subscribe(([prev, next]) => {
+      if (prev === next) {
+        return;
+      }
+
       this.form.patchValue({
-        displayTimeout: value === DISPLAY_TIMEOUT_MAX ? -1 : value
+        displayTimeout: next === DISPLAY_TIMEOUT_MAX ? -1 : next
       });
+      this.form.markAsDirty();
     });
   }
 
