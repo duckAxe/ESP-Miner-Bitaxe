@@ -112,8 +112,8 @@
 
         <h3 class="mt-5">Statistics</h3>
 
-        <div class="flex flex-column md:flex-row mb-5 gap-5">
-            <div class="flex-1">
+        <div class="flex flex-column mb-5 gap-3">
+            <div>
                 <label class="block mb-2">
                     Statistics Limit: {{form.controls['statsLimit'].value}} previous data points
                     <b *ngIf="form.controls['statsLimit'].value == 0"> (live data points only)</b>
@@ -121,7 +121,7 @@
                 <p-slider [min]="0" [max]="720" [step]="60" formControlName="statsLimit"></p-slider>
             </div>
 
-            <div class="flex-1">
+            <div>
                 <label class="block mb-2">
                     Statistics Duration:
                     {{form.controls['statsDuration'].value}} hour{{form.controls['statsDuration'].value > 1 ? 's': ''}}
