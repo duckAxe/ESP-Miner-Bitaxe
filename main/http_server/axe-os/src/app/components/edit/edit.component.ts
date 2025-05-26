@@ -8,8 +8,7 @@ import { SystemService } from 'src/app/services/system.service';
 import { eASICModel } from 'src/models/enum/eASICModel';
 import { ActivatedRoute } from '@angular/router';
 
-const DISPLAY_TIMEOUT_MIN = 0;
-const DISPLAY_TIMEOUT_MAX = 31;
+const DISPLAY_TIMEOUT_STEPS = [0, 1, 2, 5, 15, 30, 60, 60 * 2, 60 * 4, 60* 8, -1];
 
 @Component({
   selector: 'app-edit',
@@ -79,9 +78,7 @@ export class EditComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.form.patchValue({
-        displayTimeout: next === DISPLAY_TIMEOUT_MAX ? -1 : next
-      });
+      this.form.patchValue({ displayTimeout: DISPLAY_TIMEOUT_STEPS[next] });
       this.form.markAsDirty();
     });
   }
@@ -134,7 +131,7 @@ export class EditComponent implements OnInit, OnDestroy {
             Validators.required,
             Validators.pattern(/^[^:]*$/),
             Validators.min(-1),
-            Validators.max(DISPLAY_TIMEOUT_MAX)
+            Validators.max(this.displayTimeoutMaxValue)
           ]],
           coreVoltage: [info.coreVoltage, [Validators.required]],
           frequency: [info.frequency, [Validators.required]],
@@ -159,8 +156,15 @@ export class EditComponent implements OnInit, OnDestroy {
         }
       });
 
+      // Add custom value to predefined steps
+      if (DISPLAY_TIMEOUT_STEPS.filter(x => x === info.displayTimeout).length === 0) {
+        DISPLAY_TIMEOUT_STEPS.push(info.displayTimeout);
+        DISPLAY_TIMEOUT_STEPS.sort((a, b) => a - b);
+        DISPLAY_TIMEOUT_STEPS.push(DISPLAY_TIMEOUT_STEPS.shift() as number);
+      }
+
       this.displayTimeoutControl.setValue(
-        info.displayTimeout === -1 ? DISPLAY_TIMEOUT_MAX : info.displayTimeout
+        DISPLAY_TIMEOUT_STEPS.findIndex(x => x === info.displayTimeout)
       );
     });
   }
@@ -300,23 +304,11 @@ export class EditComponent implements OnInit, OnDestroy {
     return ["NONE", "SSD1306 (128x32)", "SSD1309 (128x64)", "SH1107 (64x128)", "SH1107 (128x128)"];
   }
 
-  getDisplayTimeoutMax(): number {
-    return DISPLAY_TIMEOUT_MAX;
-  }
-  getDisplayTimeoutMin(): number {
-    return DISPLAY_TIMEOUT_MIN;
+  get displayTimeoutMaxSteps(): number {
+    return DISPLAY_TIMEOUT_STEPS.length - 1;
   }
 
-  getDisplayTimeoutFormated(): string {
-    const {value} = this.form.controls['displayTimeout'];
-
-    switch(value) {
-      case 0:
-        return 'Display always off';
-      case -1:
-        return 'Display always on';
-      default:
-        return `Display timeout: ${value} Minute${value > 1 ? 's': ''}`;
-    }
+  get displayTimeoutMaxValue(): number {
+    return DISPLAY_TIMEOUT_STEPS[this.displayTimeoutMaxSteps - 1];
   }
 }

@@ -87,10 +87,22 @@
         </div>
 
         <div class="field grid p-fluid">
-            <label htmlFor="displayTimeoutControl" class="col-12 md:col-2 hidden md:flex mb-2 md:mb-0">Display Sleep</label>
+            <label htmlFor="displayTimeoutControl" class="col-12 md:col-2 hidden md:flex mb-2 md:mb-0 relative" style="top: -5px;">
+                Display Sleep
+            </label>
             <div class="col-12 md:col-10">
-                <label class="block mb-2">{{getDisplayTimeoutFormated()}}</label>
-                <p-slider [min]="getDisplayTimeoutMin()" [max]="getDisplayTimeoutMax()" [step]="1" [formControl]="displayTimeoutControl"></p-slider>
+                <label class="block mb-2">
+                    <ng-container *ngIf="this.form.controls['displayTimeout'].value == 0">
+                        Display always off
+                    </ng-container>
+                    <ng-container *ngIf="this.form.controls['displayTimeout'].value > 0">
+                        Display timeout: {{this.form.controls['displayTimeout'].value * 60 | dateAgo}}
+                    </ng-container>
+                    <ng-container *ngIf="this.form.controls['displayTimeout'].value == -1">
+                        Display always on
+                    </ng-container>
+                </label>
+                <p-slider [min]="0" [max]="displayTimeoutMaxSteps" [step]="1" [formControl]="displayTimeoutControl"></p-slider>
                 <input type="hidden" formControlName="displayTimeout" />
             </div>
         </div>
