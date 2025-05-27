@@ -213,6 +213,18 @@ export class EditComponent implements OnInit, OnDestroy {
       });
   }
 
+  getDropdownFrequency() {
+    return this.buildDropdown('frequency', this.frequencyOptions, this.defaultFrequency);
+  }
+
+  getCoreVoltage() {
+    return this.buildDropdown('coreVoltage', this.voltageOptions, this.defaultVoltage);
+  }
+
+  getDisplays() {
+    return ["NONE", "SSD1306 (128x32)", "SSD1309 (128x64)", "SH1107 (64x128)", "SH1107 (128x128)"];
+  }
+
   buildDropdown(formField: string, apiOptions: number[], defaultValue: number): {name: string; value: number;}[] {
     if (!apiOptions.length) {
       return [];
@@ -240,17 +252,5 @@ export class EditComponent implements OnInit, OnDestroy {
     }
 
     return options;
-  }
-
-  getDropdownFrequency() {
-    return this.buildDropdown('frequency', this.frequencyOptions, this.defaultFrequency);
-  }
-
-  getCoreVoltage() {
-    return this.buildDropdown('coreVoltage', this.voltageOptions, this.defaultVoltage);
-  }
-
-  getDisplays() {
-    return ["NONE", "SSD1306 (128x32)", "SSD1309 (128x64)", "SH1107 (64x128)", "SH1107 (128x128)"];
   }
 }
