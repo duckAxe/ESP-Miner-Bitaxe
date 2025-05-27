@@ -213,66 +213,41 @@ export class EditComponent implements OnInit, OnDestroy {
       });
   }
 
-  getDropdownFrequency() {
-    if (!this.frequencyOptions.length) {
+  buildDropdown(formField: string, apiOptions: number[], defaultValue: number): {name: string; value: number;}[] {
+    if (!apiOptions.length) {
       return [];
     }
 
-    // Convert frequency options from API to dropdown format
-    const options = this.frequencyOptions.map(freq => {
-      // Check if this is a default frequency for the current ASIC model
-      const isDefault = this.defaultFrequency === freq;
+    // Convert options from API to dropdown format
+    const options = apiOptions.map(option => {
       return {
-        name: isDefault ? `${freq} (default)` : `${freq}`,
-        value: freq
+        name: defaultValue === option ? `${option} (Default)` : `${option}`,
+        value: option
       };
     });
 
-    // Get current frequency value from form
-    const currentFreq = this.form?.get('frequency')?.value;
+    // Get current field value from form
+    const currentValue = this.form?.get(formField)?.value;
 
-    // If current frequency exists and isn't in the options
-    if (currentFreq && !options.some(opt => opt.value === currentFreq)) {
+    // If current field value exists and isn't in the options
+    if (currentValue && !options.some(opt => opt.value === currentValue)) {
       options.push({
-        name: `${currentFreq} (Custom)`,
-        value: currentFreq
+        name: `${currentValue} (Custom)`,
+        value: currentValue
       });
-      // Sort options by frequency value
+      // Sort options by value
       options.sort((a, b) => a.value - b.value);
     }
 
     return options;
   }
 
+  getDropdownFrequency() {
+    return this.buildDropdown('frequency', this.frequencyOptions, this.defaultFrequency);
+  }
+
   getCoreVoltage() {
-    if (!this.voltageOptions.length) {
-      return [];
-    }
-
-    // Convert voltage options from API to dropdown format
-    const options = this.voltageOptions.map(voltage => {
-      // Check if this is a default voltage for the current ASIC model
-      const isDefault = this.defaultVoltage === voltage;
-      return {
-        name: isDefault ? `${voltage} (default)` : `${voltage}`,
-        value: voltage
-      };
-    });
-
-    // Get current voltage value from form
-    const currentVoltage = this.form?.get('coreVoltage')?.value;
-
-    // If current voltage exists and isn't in the options
-    if (currentVoltage && !options.some(opt => opt.value === currentVoltage)) {
-      options.push({
-        name: `${currentVoltage} (Custom)`,
-        value: currentVoltage
-      });
-      // Sort options by voltage value
-      options.sort((a, b) => a.value - b.value);
-    }
-
-    return options;
+    return this.buildDropdown('coreVoltage', this.voltageOptions, this.defaultVoltage);
   }
 
   getDisplays() {
