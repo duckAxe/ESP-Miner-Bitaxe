@@ -252,6 +252,7 @@ export class EditComponent implements OnInit, OnDestroy {
 
   get noRestartFields(): string[] {
     return [
+      'displayTimeout',
       'coreVoltage',
       'frequency',
       'autofanspeed',
