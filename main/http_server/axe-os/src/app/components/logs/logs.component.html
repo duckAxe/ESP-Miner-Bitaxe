@@ -83,7 +83,7 @@
             <div *ngIf="showLogs" id="logs" #scrollContainer [ngClass]="{'is-expanded': isExpanded, 'mt-4': !isExpanded}">
                 <div *ngFor="let log of logs" [ngClass]="log.className">₿ {{log.text | ANSI}}</div>
 
-                <div class="fixed top-0 right-0 flex gap-2 p-2">
+                <div class="fixed top-0 right-0 flex gap-2 p-2 md:mr-4">
                     <button pButton class="btn btn--icon"
                         (click)="stopScroll = !stopScroll"
                         pTooltip="{{stopScroll ? 'Start' : 'Stop'}} Scrolling"
