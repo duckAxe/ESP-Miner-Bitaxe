@@ -44,11 +44,13 @@ const routes: Routes = [
       },
       {
         path: 'system',
-        component: SystemComponent
+        component: SystemComponent,
+        title: `${TITLE_PREFIX} System`,
       },
       {
         path: 'update',
-        component: UpdateComponent
+        component: UpdateComponent,
+        title: `${TITLE_PREFIX} Update`,
       },
       {
         path: 'network',
@@ -68,7 +70,7 @@ const routes: Routes = [
       {
         path: 'design',
         component: DesignComponent,
-        title: `${TITLE_PREFIX} Design`,
+        title: `${TITLE_PREFIX} Theme`,
       },
       {
         path: 'pool',
