@@ -7,7 +7,11 @@ import { map, Observable, shareReplay, startWith } from 'rxjs';
 import { GithubUpdateService } from 'src/app/services/github-update.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { SystemService } from 'src/app/services/system.service';
+import { LocalStorageService } from 'src/app/local-storage.service';
 import { eASICModel } from 'src/models/enum/eASICModel';
+import { ModalComponent } from '../modal/modal.component';
+
+const IGNORE_RELEASE_CHECK_WARNING = 'IGNORE_RELEASE_CHECK_WARNING';
 
 @Component({
   selector: 'app-settings',
@@ -34,13 +38,16 @@ export class SettingsComponent {
   @ViewChild('firmwareUpload') firmwareUpload!: FileUpload;
   @ViewChild('websiteUpload') websiteUpload!: FileUpload;
 
+  @ViewChild(ModalComponent) modalComponent!: ModalComponent;
+
   constructor(
     private fb: FormBuilder,
     private systemService: SystemService,
     private toastr: ToastrService,
     private toastrService: ToastrService,
     private loadingService: LoadingService,
-    private githubUpdateService: GithubUpdateService
+    private githubUpdateService: GithubUpdateService,
+    private localStorageService: LocalStorageService,
   ) {
 
 
@@ -219,5 +226,24 @@ export class SettingsComponent {
       .replace(/\r\n\r\n/gim, '<br>');
 
     return toHTML.trim();
+  }
+
+  public handleReleaseCheck(): void {
+    if (this.localStorageService.getBool(IGNORE_RELEASE_CHECK_WARNING)) {
+      this.checkLatestRelease = true;
+    } else {
+      this.modalComponent.isVisible = true;
+    }
+  }
+
+  public continueReleaseCheck(skipWarning: boolean): void {
+    this.checkLatestRelease = true;
+    this.modalComponent.isVisible = false;
+
+    if (!skipWarning) {
+      return;
+    }
+
+    this.localStorageService.setBool(IGNORE_RELEASE_CHECK_WARNING, true);
   }
 }
