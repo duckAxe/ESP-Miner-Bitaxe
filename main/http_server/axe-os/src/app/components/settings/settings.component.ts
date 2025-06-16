@@ -8,6 +8,7 @@ import { GithubUpdateService } from 'src/app/services/github-update.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { SystemService } from 'src/app/services/system.service';
 import { eASICModel } from 'src/models/enum/eASICModel';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-settings',
@@ -21,8 +22,6 @@ export class SettingsComponent {
   public firmwareUpdateProgress: number | null = null;
   public websiteUpdateProgress: number | null = null;
 
-  public showReleaseNotes = false;
-
   public eASICModel = eASICModel;
   public ASICModel!: eASICModel;
 
@@ -33,6 +32,8 @@ export class SettingsComponent {
 
   @ViewChild('firmwareUpload') firmwareUpload!: FileUpload;
   @ViewChild('websiteUpload') websiteUpload!: FileUpload;
+
+  @ViewChild(ModalComponent) modalComponent!: ModalComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -215,7 +216,7 @@ export class SettingsComponent {
       .replace(/\*\*(.+?)\*\*|__(.+?)__/gim, '<b>$1</b>')
       .replace(/\*(.+?)\*|_(.+?)_/gim, '<i>$1</i>')
       .replace(/\[(.*?)\]\((.*?)\s?(?:"(.*?)")?\)/gm, '<a href="$2" class="underline text-white" target="_blank">$1</a>')
-      .replace(/^\s*[-+*]\s+(.+)$/gim, '<li>$1</li>')
+      .replace(/^\s*[-+*]\s?(.+)$/gim, '<li>$1</li>')
       .replace(/\r\n\r\n/gim, '<br>');
 
     return toHTML.trim();
