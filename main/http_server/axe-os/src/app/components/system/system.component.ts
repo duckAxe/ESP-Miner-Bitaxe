@@ -6,7 +6,6 @@ import { ISystemInfo } from 'src/models/ISystemInfo';
 @Component({
   selector: 'app-system',
   templateUrl: './system.component.html',
-  styleUrl: './system.component.scss'
 })
 export class SystemComponent {
   public info$: Observable<ISystemInfo>;
