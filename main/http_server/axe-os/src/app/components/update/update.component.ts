@@ -123,12 +123,12 @@ export class UpdateComponent {
   // https://gist.github.com/elfefe/ef08e583e276e7617cd316ba2382fc40
   public simpleMarkdownParser(markdown: string): string {
     const toHTML = markdown
-      .replace(/^#{1,6}\s+(.+)$/gim, '<h4 class="mt-2">$1</h4>')
-      .replace(/\*\*(.+?)\*\*|__(.+?)__/gim, '<b>$1</b>')
-      .replace(/\*(.+?)\*|_(.+?)_/gim, '<i>$1</i>')
-      .replace(/\[(.*?)\]\((.*?)\s?(?:"(.*?)")?\)/gm, '<a href="$2" class="underline text-white" target="_blank">$1</a>')
-      .replace(/^\s*[-+*]\s?(.+)$/gim, '<li>$1</li>')
-      .replace(/\r\n\r\n/gim, '<br>');
+      .replace(/^#{1,6}\s+(.+)$/gim, '<h4 class="mt-2">$1</h4>') // Headlines
+      .replace(/\*\*(.+?)\*\*|__(.+?)__/gim, '<b>$1</b>') // Bold text
+      .replace(/\*(.+?)\*|_(.+?)_/gim, '<i>$1</i>') // Italic text
+      .replace(/\[(.*?)\]\((.*?)\s?(?:"(.*?)")?\)/gm, '<a href="$2" class="underline text-white" target="_blank">$1</a>') // Links
+      .replace(/^\s*[-+*]\s?(.+)$/gim, '<li>$1</li>') // Unordered list
+      .replace(/\r\n\r\n/gim, '<br>'); // Breaks
 
     return toHTML.trim();
   }
