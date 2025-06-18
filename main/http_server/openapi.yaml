@@ -523,6 +523,16 @@ paths:
                       - BM1397
                     examples:
                       - "BM1366"
+                  familyName:
+                    type: string
+                    description: Family name
+                    examples:
+                      - "Ultra"
+                  swarmColor:
+                    type: string
+                    description: Swarm color
+                    examples:
+                      - "purple"
                   boardFamily:
                     type: string
                     description: Board family name

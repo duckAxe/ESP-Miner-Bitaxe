@@ -111,18 +111,18 @@ export class EditComponent implements OnInit, OnDestroy {
     // Fetch both system info and ASIC settings in parallel
     forkJoin({
       info: this.systemService.getInfo(this.uri),
-      asicSettings: this.systemService.getAsicSettings(this.uri)
+      asic: this.systemService.getAsicSettings(this.uri)
     })
     .pipe(
       this.loadingService.lockUIUntilComplete(),
       takeUntil(this.destroy$)
     )
-    .subscribe(({ info, asicSettings }) => {
+    .subscribe(({ info, asic }) => {
       // Store the frequency and voltage options from the API
-      this.defaultFrequency = asicSettings.defaultFrequency;
-      this.frequencyOptions = asicSettings.frequencyOptions;
-      this.defaultVoltage = asicSettings.defaultVoltage;
-      this.voltageOptions = asicSettings.voltageOptions;
+      this.defaultFrequency = asic.defaultFrequency;
+      this.frequencyOptions = asic.frequencyOptions;
+      this.defaultVoltage = asic.defaultVoltage;
+      this.voltageOptions = asic.voltageOptions;
 
       // Check if overclock is enabled in NVS
       if (info.overclockEnabled === 1) {
