@@ -1,6 +1,6 @@
 import { AfterViewChecked, Component, Input, OnInit, ElementRef, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { interval, map, Observable, shareReplay, startWith, Subscription, switchMap } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { SystemService } from 'src/app/services/system.service';
 import { WebsocketService } from 'src/app/services/web-socket.service';
 import { ISystemInfo } from 'src/models/ISystemInfo';
@@ -14,18 +14,15 @@ export class LogsComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   public form!: FormGroup;
 
-  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
-  public info$: Observable<ISystemInfo>;
-
   public logs: { className: string, text: string }[] = [];
 
   private websocketSubscription?: Subscription;
 
-  public showLogs = false;
-
   public stopScroll: boolean = false;
 
   public isExpanded: boolean = false;
+
+  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
   @HostListener('document:keydown.esc', ['$event'])
   onEscKey(event: KeyboardEvent) {
@@ -39,29 +36,11 @@ export class LogsComponent implements OnInit, OnDestroy, AfterViewChecked {
     private fb: FormBuilder,
     private websocketService: WebsocketService,
     private systemService: SystemService
-  ) {
-
-
-    this.info$ = interval(5000).pipe(
-      startWith(() => this.systemService.getInfo()),
-      switchMap(() => {
-        return this.systemService.getInfo()
-      }),
-      map(info => {
-        info.power = parseFloat(info.power.toFixed(1))
-        info.voltage = parseFloat((info.voltage / 1000).toFixed(1));
-        info.current = parseFloat((info.current / 1000).toFixed(1));
-        info.coreVoltageActual = parseFloat((info.coreVoltageActual / 1000).toFixed(2));
-        info.coreVoltage = parseFloat((info.coreVoltage / 1000).toFixed(2));
-        return info;
-      }),
-      shareReplay({ refCount: true, bufferSize: 1 })
-    );
-
-
-  }
+  ) {}
 
   ngOnInit(): void {
+    this.subscribeLogs();
+
     this.form = this.fb.group({
       filter: ["", [Validators.required]]
     });
@@ -102,16 +81,6 @@ export class LogsComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         }
       })
-  }
-
-  public toggleLogs() {
-    this.showLogs = !this.showLogs;
-
-    if (this.showLogs) {
-      this.subscribeLogs();
-    } else {
-      this.websocketSubscription?.unsubscribe();
-    }
   }
 
   public clearLogs() {
