@@ -3,14 +3,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, shareReplay, startWith } from 'rxjs';
-import { GithubUpdateService } from 'src/app/services/github-update.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { SystemService } from 'src/app/services/system.service';
-import { LocalStorageService } from 'src/app/local-storage.service';
 import { eASICModel } from 'src/models/enum/eASICModel';
-import { ModalComponent } from '../modal/modal.component';
-
-const IGNORE_RELEASE_CHECK_WARNING = 'IGNORE_RELEASE_CHECK_WARNING';
 
 @Component({
   selector: 'app-settings',
