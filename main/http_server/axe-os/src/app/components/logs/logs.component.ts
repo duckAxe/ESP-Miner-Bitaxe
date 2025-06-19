@@ -1,9 +1,7 @@
 import { AfterViewChecked, Component, Input, OnInit, ElementRef, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-import { SystemService } from 'src/app/services/system.service';
+import { Subscription } from 'rxjs';
 import { WebsocketService } from 'src/app/services/web-socket.service';
-import { ISystemInfo } from 'src/models/ISystemInfo';
 
 @Component({
   selector: 'app-logs',
@@ -25,17 +23,17 @@ export class LogsComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
   @HostListener('document:keydown.esc', ['$event'])
-  onEscKey(event: KeyboardEvent) {
+  onEscKey() {
     if (this.isExpanded) {
       this.isExpanded = false;
     }
   }
+
   @Input() uri = '';
 
   constructor(
     private fb: FormBuilder,
     private websocketService: WebsocketService,
-    private systemService: SystemService
   ) {}
 
   ngOnInit(): void {
