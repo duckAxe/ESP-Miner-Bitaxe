@@ -46,6 +46,7 @@ export class LogsComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnDestroy(): void {
     this.websocketSubscription?.unsubscribe();
+    this.clearLogs();
   }
 
   private subscribeLogs() {
