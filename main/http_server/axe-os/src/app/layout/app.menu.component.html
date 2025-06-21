@@ -11,12 +11,11 @@
 
 <ng-container *ngIf="isMobile()">
     <ul *ngIf="info$ | async as info" class="lg:hidden list-none absolute p-0 mt-0 mr-4 right-0 bottom-0 opacity-80">
-        <li class="flex align-items-center gap-2">
-            <img src="/assets/images/bitaxe.svg" width="16" height="16" alt="Bitaxe" />
+        <li class="flex align-items-center justify-content-end gap-2">
             {{info.hostname}}
+            <img src="/assets/images/bitaxe.svg" width="16" height="16" alt="Bitaxe" />
         </li>
-        <li class="flex align-items-center gap-2">
-            <i class="pi pi-wifi" style="font-size: 1.143rem"></i>
+        <li class="flex align-items-center justify-content-end gap-2">
             <span [ngClass]="{
                 'text-green-500': info.wifiRSSI > -50,
                 'text-blue-500': info.wifiRSSI <= -50 && info.wifiRSSI > -60,
@@ -25,6 +24,7 @@
             }">
                 {{info.wifiRSSI}} dBm
             </span>
+            <i class="pi pi-wifi" style="font-size: 1.143rem"></i>
         </li>
     </ul>
 </ng-container>
