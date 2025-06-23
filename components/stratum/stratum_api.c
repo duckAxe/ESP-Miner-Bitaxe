@@ -332,6 +332,15 @@ int STRATUM_V1_suggest_difficulty(int socket, int send_uid, uint32_t difficulty)
     return write(socket, difficulty_msg, strlen(difficulty_msg));
 }
 
+int STRATUM_V1_extranonce_subscribe(int socket, int send_uid)
+{
+    char extranonce_msg[BUFFER_SIZE];
+    sprintf(extranonce_msg, "{\"id\": %d, \"method\": \"mining.extranonce.subscribe\", \"params\": []}\n", send_uid);
+    debug_stratum_tx(extranonce_msg);
+
+    return write(socket, extranonce_msg, strlen(extranonce_msg));
+}
+
 int STRATUM_V1_authorize(int socket, int send_uid, const char * username, const char * pass)
 {
     char authorize_msg[BUFFER_SIZE];

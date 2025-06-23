@@ -52,7 +52,11 @@ typedef struct
     char * pool_url;
     char * fallback_pool_url;
     uint16_t pool_port;
+    bool pool_extranonce_subscribe;
+    uint16_t pool_difficulty;
     uint16_t fallback_pool_port;
+    bool fallback_pool_extranonce_subscribe;
+    uint16_t fallback_pool_difficulty;
     char * pool_user;
     char * fallback_pool_user;
     char * pool_pass;
