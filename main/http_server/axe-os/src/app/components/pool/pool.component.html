@@ -1,8 +1,8 @@
 <div class="grid">
     <div class="col-12">
-        <div class="card">
-            <h2>Pool Configuration</h2>
-            <form [formGroup]="form" *ngIf="form != null">
+        <form [formGroup]="form" *ngIf="form != null">
+            <div class="card">
+                <h2>Pool Configuration</h2>
                 <div class="field grid p-fluid">
                     <label htmlFor="stratumURL" class="col-12 mb-2 md:col-2 md:mb-0">Stratum Host:</label>
                     <div class="col-12 md:col-10">
@@ -19,13 +19,26 @@
                     </div>
                 </div>
                 <div class="field grid p-fluid">
-                    <label htmlFor="stratumUser" class="col-12 mb-2 md:col-2 md:mb-0">Stratum User:</label>
+                    <label for="stratumExtranonceSubscribe" class="col-12 mb-2 md:col-2 md:mb-0">Enable Extranonce Subscribe:</label>
+                    <div class="col-12 md:col-10">
+                        <p-checkbox name="stratumExtranonceSubscribe" formControlName="stratumExtranonceSubscribe" inputId="stratumExtranonceSubscribe"
+                            [binary]="true"></p-checkbox>
+                    </div>
+                </div>
+                <div class="field grid p-fluid">
+                    <label htmlFor="stratumDifficulty" class="col-12 mb-2 md:col-2 md:mb-0">Suggested Difficulty:</label>
+                    <div class="col-12 md:col-10">
+                        <input pInputText id="stratumDifficulty" formControlName="stratumDifficulty" type="number" />
+                    </div>
+                </div>
+                <div class="field grid p-fluid">
+                    <label htmlFor="stratumUser" class="col-12 mb-2 md:col-2 md:mb-0">User:</label>
                     <div class="col-12 md:col-10">
                         <input pInputText id="stratumUser" formControlName="stratumUser" type="text" />
                     </div>
                 </div>
                 <div class="field grid p-fluid">
-                    <label htmlFor="stratumPassword" class="col-12 mb-2 md:col-2 md:mb-0">Stratum Password:</label>
+                    <label htmlFor="stratumPassword" class="col-12 mb-2 md:col-2 md:mb-0">Password:</label>
                     <div class="col-12 md:col-10 p-input-icon-right">
                         <i *ngIf="form.get('stratumPassword')?.dirty" class="pi"
                         [ngClass]="{'pi-eye': !showStratumPassword, 'pi-eye-slash': showStratumPassword}"
@@ -35,9 +48,13 @@
                             placeholder="Enter stratum password" />
                     </div>
                 </div>
+            </div>
+            
+            <div class="card">
+                <h2>Fallback Pool Configuration</h2>
 
                 <div class="field grid p-fluid mt-5">
-                    <label htmlFor="fallbackStratumURL" class="col-12 mb-2 md:col-2 md:mb-0">Fallback Stratum Host:</label>
+                    <label htmlFor="fallbackStratumURL" class="col-12 mb-2 md:col-2 md:mb-0">Stratum Host:</label>
                     <div class="col-12 md:col-10">
                         <input pInputText id="fallbackStratumURL" type="text" formControlName="fallbackStratumURL" />
                         <div>
@@ -46,19 +63,32 @@
                     </div>
                 </div>
                 <div class="field grid p-fluid">
-                    <label htmlFor="fallbackStratumPort" class="col-12 mb-2 md:col-2 md:mb-0">Fallback Stratum Port:</label>
+                    <label htmlFor="fallbackStratumPort" class="col-12 mb-2 md:col-2 md:mb-0">Stratum Port:</label>
                     <div class="col-12 md:col-10">
                         <input pInputText id="fallbackStratumPort" formControlName="fallbackStratumPort" type="number" />
                     </div>
                 </div>
                 <div class="field grid p-fluid">
-                    <label htmlFor="fallbackStratumUser" class="col-12 mb-2 md:col-2 md:mb-0">Fallback Stratum User:</label>
+                    <label for="fallbackStratumExtranonceSubscribe" class="col-12 mb-2 md:col-2 md:mb-0">Enable Extranonce Subscribe:</label>
+                    <div class="col-12 md:col-10">
+                        <p-checkbox name="fallbackStratumExtranonceSubscribe" formControlName="fallbackStratumExtranonceSubscribe" inputId="fallbackStratumExtranonceSubscribe"
+                            [binary]="true"></p-checkbox>
+                    </div>
+                </div>
+                <div class="field grid p-fluid">
+                    <label htmlFor="fallbackStratumDifficulty" class="col-12 mb-2 md:col-2 md:mb-0">Suggested Difficulty:</label>
+                    <div class="col-12 md:col-10">
+                        <input pInputText id="fallbackStratumDifficulty" formControlName="fallbackStratumDifficulty" type="number" />
+                    </div>
+                </div>
+                <div class="field grid p-fluid">
+                    <label htmlFor="fallbackStratumUser" class="col-12 mb-2 md:col-2 md:mb-0">User:</label>
                     <div class="col-12 md:col-10">
                         <input pInputText id="fallbackStratumUser" formControlName="fallbackStratumUser" type="text" />
                     </div>
                 </div>
                 <div class="field grid p-fluid">
-                    <label htmlFor="fallbackStratumPassword" class="col-12 mb-2 md:col-2 md:mb-0">Fallback Stratum Password:</label>
+                    <label htmlFor="fallbackStratumPassword" class="col-12 mb-2 md:col-2 md:mb-0">Password:</label>
                     <div class="col-12 md:col-10 p-input-icon-right">
                         <i *ngIf="form.get('fallbackStratumPassword')?.dirty" class="pi"
                         [ngClass]="{'pi-eye': !showFallbackStratumPassword, 'pi-eye-slash': showFallbackStratumPassword}"
@@ -69,12 +99,13 @@
                     </div>
                 </div>
 
-                <div class="flex mt-5 gap-3">
-                    <button pButton [disabled]="!form.dirty || form.invalid" (click)="updateSystem()"
-                        class="btn btn-primary">Save</button>
-                    <button pButton [disabled]="!savedChanges" (click)="restart()">Restart</button>
-                </div>
-            </form>
-        </div>
+            </div>
+
+            <div class="flex mt-5 gap-3">
+                <button pButton [disabled]="!form.dirty || form.invalid" (click)="updateSystem()"
+                    class="btn btn-primary">Save</button>
+                <button pButton [disabled]="!savedChanges" (click)="restart()">Restart</button>
+            </div>
+        </form>
     </div>
 </div>

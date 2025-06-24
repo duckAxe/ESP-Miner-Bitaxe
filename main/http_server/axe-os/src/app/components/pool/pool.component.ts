@@ -41,6 +41,11 @@ export class PoolComponent implements OnInit {
             Validators.min(0),
             Validators.max(65535)
           ]],
+          stratumExtranonceSubscribe: [info.stratumExtranonceSubscribe, [Validators.required]],
+          stratumDifficulty: [info.stratumDifficulty, [Validators.required]],
+          stratumUser: [info.stratumUser, [Validators.required]],
+          stratumPassword: ['*****', [Validators.required]],
+
           fallbackStratumURL: [info.fallbackStratumURL, [
             Validators.pattern(/^(?!.*stratum\+tcp:\/\/).*$/),
           ]],
@@ -50,10 +55,10 @@ export class PoolComponent implements OnInit {
             Validators.min(0),
             Validators.max(65535)
           ]],
-          stratumUser: [info.stratumUser, [Validators.required]],
-          stratumPassword: ['*****', [Validators.required]],
+          fallbackStratumExtranonceSubscribe: [info.fallbackStratumExtranonceSubscribe, [Validators.required]],
+          fallbackStratumDifficulty: [info.fallbackStratumDifficulty, [Validators.required]],
           fallbackStratumUser: [info.fallbackStratumUser, [Validators.required]],
-          fallbackStratumPassword: ['password', [Validators.required]]
+          fallbackStratumPassword: ['*****', [Validators.required]]
         });
       });
   }
@@ -63,6 +68,9 @@ export class PoolComponent implements OnInit {
 
     if (form.stratumPassword === '*****') {
       delete form.stratumPassword;
+    }
+    if (form.fallbackStratumPassword === '*****') {
+      delete form.fallbackStratumPassword;
     }
 
     this.systemService.updateSystem(this.uri, form)
