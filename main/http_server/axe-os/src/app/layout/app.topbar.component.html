@@ -1,14 +1,19 @@
 <div class="layout-topbar">
-    <a class="flex-order-2 lg:flex-order-0" routerLink="">
+    <a routerLink="">
         <img src="/assets/images/AxeOS.svg" width="120" height="54" class="block" alt="AxeOS" />
     </a>
 
-    <button *ngIf="!isAPMode" #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+    <button *ngIf="!isAPMode" #menubutton class="p-link layout-topbar-button" (click)="layoutService.onMenuToggle()">
         <i class="pi pi-bars"></i>
     </button>
 
-    <ng-container *ngIf="isDesktop()">
-        <ul *ngIf="info$ | async as info" class="hidden lg:flex ml-auto list-none p-0 gap-4">
+    <ng-container *ngIf="info$ | async as info">
+        <span class="text-500 select-none absolute left-0 bottom-0 ml-7 mb-1"
+            tooltipPosition="bottom"
+            pTooltip="Hostname"
+        >{{info.hostname}}</span>
+
+        <ul *ngIf="isDesktop()" class="hidden lg:flex ml-auto list-none p-0 gap-4">
             <li>
                 <a routerLink="network"
                     class="block py-2"
