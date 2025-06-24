@@ -1,11 +1,23 @@
 #loading {
-    background-color: rgba(0, 0, 0, 0.4);
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    background-color: var(--surface-ground);
+    top: 7rem;
+    bottom: 2rem;
+    left: calc(4rem + 250px);
+    right: 2rem;
     position: fixed;
     z-index: 99999999999999999999;
+
+    ::ng-deep .layout-static-inactive & {
+        left: 2rem;
+    }
+
+    @media (max-width: 991px) {
+        left: 2rem;
+    }
+    @media (max-width: 768px) {
+        left: 1rem;
+        right: 1rem;
+    }
 }
 
 figure {
@@ -17,13 +29,13 @@ figure {
 }
 
 .icon-bitaxe {
-    width: 34px;
-    height: 50px;
+    width: 41px;
+    height: 60px;
 }
 .icon-fan {
-    width: 28px;
-    height: 28px;
-    margin: 18px 0 0;
+    width: 32px;
+    height: 32px;
+    margin: 24px 0 0;
     position: absolute;
 
     animation: rotation 1s infinite linear;

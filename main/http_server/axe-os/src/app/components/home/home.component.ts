@@ -284,10 +284,10 @@ export class HomeComponent {
     );
 
     this.info$.subscribe({
-        next: () => {
-          this.loadingService.loading$.next(false)
-        }
-      });
+      next: () => {
+        this.loadingService.loading$.next(false)
+      }
+    });
 
     this.quickLink$ = this.info$.pipe(
       map(info => {
