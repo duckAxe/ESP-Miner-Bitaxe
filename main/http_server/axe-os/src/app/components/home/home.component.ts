@@ -3,6 +3,7 @@ import { interval, map, Observable, shareReplay, startWith, switchMap, tap } fro
 import { HashSuffixPipe } from 'src/app/pipes/hash-suffix.pipe';
 import { QuicklinkService } from 'src/app/services/quicklink.service';
 import { ShareRejectionExplanationService } from 'src/app/services/share-rejection-explanation.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { SystemService } from 'src/app/services/system.service';
 import { ThemeService } from 'src/app/services/theme.service';
 import { ISystemInfo } from 'src/models/ISystemInfo';
@@ -48,6 +49,7 @@ export class HomeComponent {
     private themeService: ThemeService,
     private quickLinkService: QuicklinkService,
     private titleService: Title,
+    private loadingService: LoadingService,
     private shareRejectReasonsService: ShareRejectionExplanationService
   ) {
     this.initializeChart();
@@ -60,6 +62,7 @@ export class HomeComponent {
 
   ngOnInit() {
     this.pageDefaultTitle = this.titleService.getTitle();
+    this.loadingService.loading$.next(true);
   }
 
   private updateChartColors() {
@@ -279,6 +282,12 @@ export class HomeComponent {
       }),
       shareReplay({ refCount: true, bufferSize: 1 })
     );
+
+    this.info$.subscribe({
+        next: () => {
+          this.loadingService.loading$.next(false)
+        }
+      });
 
     this.quickLink$ = this.info$.pipe(
       map(info => {

@@ -1,5 +1,5 @@
 #loading {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
     top: 0;
     bottom: 0;
     left: 0;
@@ -8,8 +8,35 @@
     z-index: 99999999999999999999;
 }
 
-#loading-text {
-    text-align: center;
-    margin-top: 40vh;
-    font-size: 20pt;
+figure {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.icon-bitaxe {
+    width: 34px;
+    height: 50px;
+}
+.icon-fan {
+    width: 28px;
+    height: 28px;
+    margin: 18px 0 0;
+    position: absolute;
+
+    animation: rotation 1s infinite linear;
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
