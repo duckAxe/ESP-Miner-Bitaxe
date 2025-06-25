@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { interval, map, Observable, shareReplay, startWith, switchMap, tap } from 'rxjs';
+import { interval, map, Observable, shareReplay, startWith, switchMap, tap, first } from 'rxjs';
 import { HashSuffixPipe } from 'src/app/pipes/hash-suffix.pipe';
 import { QuicklinkService } from 'src/app/services/quicklink.service';
 import { ShareRejectionExplanationService } from 'src/app/services/share-rejection-explanation.service';
@@ -283,7 +283,9 @@ export class HomeComponent {
       shareReplay({ refCount: true, bufferSize: 1 })
     );
 
-    this.info$.subscribe({
+    this.info$.pipe(
+      first()
+    ).subscribe({
       next: () => {
         this.loadingService.loading$.next(false)
       }
