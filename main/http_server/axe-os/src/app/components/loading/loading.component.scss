@@ -1,8 +1,8 @@
 #loading {
     background-color: var(--surface-ground);
     top: 7rem;
-    bottom: 2rem;
-    left: calc(4rem + 250px);
+    bottom: 0;
+    left: calc(4rem + var(--sidebar-width));
     right: 2rem;
     position: fixed;
     z-index: 99999999999999999999;
