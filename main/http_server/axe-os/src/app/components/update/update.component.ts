@@ -58,7 +58,7 @@ export class UpdateComponent {
             this.firmwareUpdateProgress = Math.round((event.loaded / (event.total as number)) * 100);
           } else if (event.type === HttpEventType.Response) {
             if (event.ok) {
-              this.toastrService.success('Firmware updated. Device has been successfully restarted.', 'Success!');
+              this.toastrService.success('Firmware updated. Device has been successfully restarted.', 'Success');
 
             } else {
               this.toastrService.error(event.statusText, 'Error');
