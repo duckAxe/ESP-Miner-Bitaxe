@@ -18,6 +18,7 @@ import { AppMenuComponent } from './app.menu.component';
 import { AppMenuitemComponent } from './app.menuitem.component';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { AppTopBarComponent } from './app.topbar.component';
+import { LoadingComponent } from '../components/loading/loading.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { AppTopBarComponent } from './app.topbar.component';
         AppMenuComponent,
         AppSidebarComponent,
         AppLayoutComponent,
+        LoadingComponent,
     ],
     imports: [
         BrowserModule,
