@@ -72,11 +72,11 @@ export class NetworkEditComponent implements OnInit {
       .subscribe({
         next: () => {
           this.toastr.warning('You must restart this device after saving for changes to take effect', 'Warning');
-          this.toastr.success('Success!', 'Saved network settings');
+          this.toastr.success('Saved network settings', 'Success');
           this.savedChanges = true;
         },
         error: (err: HttpErrorResponse) => {
-          this.toastr.error('Error.', `Could not save. ${err.message}`);
+          this.toastr.error(`Could not save. ${err.message}`, 'Error');
           this.savedChanges = false;
         }
       });
@@ -138,10 +138,10 @@ export class NetworkEditComponent implements OnInit {
       .pipe(this.loadingService.lockUIUntilComplete())
       .subscribe({
         next: () => {
-          this.toastr.success('Success!', 'Bitaxe restarted');
+          this.toastr.success('Device restarted', 'Success');
         },
         error: (err: HttpErrorResponse) => {
-          this.toastr.error('Error', `Could not restart. ${err.message}`);
+          this.toastr.error(`Could not restart. ${err.message}`, 'Error');
         }
       });
   }

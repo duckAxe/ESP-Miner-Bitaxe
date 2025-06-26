@@ -149,7 +149,7 @@ export class SwarmComponent implements OnInit, OnDestroy {
         timeout(5000),
         catchError(error => {
           const errorMessage = error?.message || error?.statusText || error?.toString() || 'Unknown error';
-          this.toastr.error('Failed to get info from ' + IP, errorMessage);
+          this.toastr.error(errorMessage, 'Error');
           // Return existing device with zeroed stats instead of the previous state
           const existingDevice = this.swarm.find(axeOs => axeOs.IP === IP);
           return of({
@@ -176,7 +176,7 @@ export class SwarmComponent implements OnInit, OnDestroy {
 
     // Check if IP already exists
     if (this.swarm.some(item => item.IP === IP)) {
-      this.toastr.warning('This IP address already exists in the swarm', 'Duplicate Entry');
+      this.toastr.warning('This IP address already exists in the swarm', 'Warning');
       return;
     }
 
@@ -210,7 +210,7 @@ export class SwarmComponent implements OnInit, OnDestroy {
       })
     ).subscribe(res => {
       if (res !== null) {
-        this.toastr.success(`Bitaxe at ${axe.IP} restarted`, 'Success');
+        this.toastr.success(`Device at ${axe.IP} restarted`, 'Success');
       }
     });
   }

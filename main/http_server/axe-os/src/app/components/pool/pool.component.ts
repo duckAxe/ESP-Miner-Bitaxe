@@ -84,7 +84,7 @@ export class PoolComponent implements OnInit {
         next: () => {
           const successMessage = this.uri ? `Saved pool settings for ${this.uri}` : 'Saved pool settings';
           this.toastr.warning('You must restart this device after saving for changes to take effect', 'Warning');
-          this.toastr.success(successMessage, 'Success!');
+          this.toastr.success(successMessage, 'Success');
           this.savedChanges = true;
         },
         error: (err: HttpErrorResponse) => {
@@ -100,7 +100,7 @@ export class PoolComponent implements OnInit {
       .pipe(this.loadingService.lockUIUntilComplete())
       .subscribe({
         next: () => {
-          const successMessage = this.uri ? `Bitaxe at ${this.uri} restarted` : 'Bitaxe restarted';
+          const successMessage = this.uri ? `Device at ${this.uri} restarted` : 'Device restarted';
           this.toastr.success(successMessage, 'Success');
         },
         error: (err: HttpErrorResponse) => {
