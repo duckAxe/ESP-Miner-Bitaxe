@@ -30,7 +30,6 @@ export class NetworkEditComponent implements OnInit {
     private fb: FormBuilder,
     private systemService: SystemService,
     private toastr: ToastrService,
-    private toastrService: ToastrService,
     private loadingService: LoadingService,
     private http: HttpClient,
     private dialogService: DialogService
@@ -114,7 +113,8 @@ export class NetworkEditComponent implements OnInit {
 
           // Create dialog data
           const dialogData = filteredNetworks.map(n => ({
-            label: `${n.ssid} (${n.rssi}dBm)`,
+            label: n.ssid,
+            rssi: n.rssi,
             value: n.ssid
           }));
 
