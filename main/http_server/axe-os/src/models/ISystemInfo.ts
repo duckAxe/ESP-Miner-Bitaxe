@@ -1,5 +1,3 @@
-import { eASICModel } from './enum/eASICModel';
-
 interface ISharesRejectedStat {
     message: string;
     count: number;
@@ -35,16 +33,22 @@ export interface ISystemInfo {
     uptimeSeconds: number,
     asicCount: number,
     smallCoreCount: number,
-    ASICModel: eASICModel,
+    ASICModel: string,
     stratumURL: string,
     stratumPort: number,
+    stratumUser: string,
+    stratumSuggestedDifficulty: number,
+    stratumExtranonceSubscribe: number,
     fallbackStratumURL: string,
     fallbackStratumPort: number,
-    isUsingFallbackStratum: boolean,
-    stratumUser: string,
     fallbackStratumUser: string,
+    fallbackStratumSuggestedDifficulty: number,
+    fallbackStratumExtranonceSubscribe: number,
+    responseTime: number,
+    isUsingFallbackStratum: boolean,
     frequency: number,
     version: string,
+    axeOSVersion: string,
     idfVersion: string,
     boardVersion: string,
     autofanspeed: number,
