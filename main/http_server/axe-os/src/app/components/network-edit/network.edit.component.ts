@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { SystemService } from 'src/app/services/system.service';
@@ -19,6 +20,8 @@ interface WifiNetwork {
   styleUrls: ['./network.edit.component.scss']
 })
 export class NetworkEditComponent implements OnInit {
+  private formSubject = new BehaviorSubject<FormGroup | null>(null);
+  public form$: Observable<FormGroup | null> = this.formSubject.asObservable();
 
   public form!: FormGroup;
   public savedChanges: boolean = false;
@@ -45,7 +48,7 @@ export class NetworkEditComponent implements OnInit {
           ssid: [info.ssid, [Validators.required]],
           wifiPass: ['*****'],
         });
-
+        this.formSubject.next(this.form);
       });
   }
 
