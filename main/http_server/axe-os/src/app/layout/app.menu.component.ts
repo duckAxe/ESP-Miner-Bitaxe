@@ -48,7 +48,7 @@ export class AppMenuComponent implements OnInit {
 
     public restart() {
         this.systemService.restart().subscribe(res => {});
-        this.toastr.success('Device restarted', 'Success');
+        this.toastr.success('Device restarted');
     }
 
     public isMobile() {
