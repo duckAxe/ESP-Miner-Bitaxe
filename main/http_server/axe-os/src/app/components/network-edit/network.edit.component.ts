@@ -122,7 +122,7 @@ export class NetworkEditComponent implements OnInit {
           }));
 
           // Show dialog with network list
-          this.dialogService.open('Select WiFi Network', dialogData)
+          this.dialogService.open('Select Wi-Fi Network', dialogData)
             .subscribe((selectedSsid: string) => {
               if (selectedSsid) {
                 this.form.patchValue({ ssid: selectedSsid });
@@ -131,7 +131,7 @@ export class NetworkEditComponent implements OnInit {
             });
         },
         error: (err) => {
-          this.toastr.error('Failed to scan WiFi networks', 'Error');
+          this.toastr.error('Failed to scan Wi-Fi networks', 'Error');
         }
       });
   }
