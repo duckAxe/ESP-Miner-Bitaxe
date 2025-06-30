@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin, startWith, Subject, takeUntil, pairwise, BehaviorSubject, Observable } from 'rxjs';
@@ -20,7 +20,8 @@ const STATS_FREQUENCY_STEPS = [0, 30, 60, 60 * 2, 60 * 6, 60 * 14, 60 * 28, 60 *
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
-export class EditComponent implements OnInit, OnDestroy {
+
+export class EditComponent implements OnInit, OnDestroy, OnChanges {
   private formSubject = new BehaviorSubject<FormGroup | null>(null);
   public form$: Observable<FormGroup | null> = this.formSubject.asObservable();
 
@@ -100,7 +101,8 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   private saveOverclockSetting(enabled: number) {
-    this.systemService.updateSystem(this.uri, { overclockEnabled: enabled })
+    const deviceUri = this.uri || '';
+    this.systemService.updateSystem(deviceUri, { overclockEnabled: enabled })
       .subscribe({
         next: () => {
           console.log(`Overclock setting saved: ${enabled === 1 ? 'enabled' : 'disabled'}`);
@@ -112,10 +114,24 @@ export class EditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.loadDeviceSettings();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // When URI changes, reload the device settings
+    if (changes['uri'] && changes['uri'].currentValue && !changes['uri'].firstChange) {
+      this.loadDeviceSettings();
+    }
+  }
+
+  private loadDeviceSettings(): void {
+    const deviceUri = this.uri || '';
+
+
     // Fetch both system info and ASIC settings in parallel
     forkJoin({
-      info: this.systemService.getInfo(this.uri),
-      asic: this.systemService.getAsicSettings(this.uri)
+      info: this.systemService.getInfo(deviceUri),
+      asic: this.systemService.getAsicSettings(deviceUri)
     })
     .pipe(
       this.loadingService.lockUIUntilComplete(),
@@ -209,7 +225,8 @@ export class EditComponent implements OnInit, OnDestroy {
       delete form.stratumPassword;
     }
 
-    this.systemService.updateSystem(this.uri, form)
+    const deviceUri = this.uri || '';
+    this.systemService.updateSystem(deviceUri, form)
       .pipe(this.loadingService.lockUIUntilComplete())
       .subscribe({
         next: () => {
