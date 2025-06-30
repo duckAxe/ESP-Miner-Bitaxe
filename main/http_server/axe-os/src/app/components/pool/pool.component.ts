@@ -139,6 +139,9 @@ export class PoolComponent implements OnInit, OnDestroy {
         x => 'url' in x.value && x.value.url === url && 'port' in x.value && x.value.port === port
       )) {
         this.form.controls[`${pool}Pool`].setValue({ url, port });
+
+        urlControl.disable();
+        portControl.disable();
       }
     });
   }
@@ -153,11 +156,12 @@ export class PoolComponent implements OnInit, OnDestroy {
         startWith(poolControl.value),
         takeUntil(this.destroy$)
       ).subscribe(value => {
-        if (!value) return;
-
         const { url, port } = value;
 
         if (!url || !port) {
+          urlControl.enable();
+          portControl.enable();
+
           return;
         }
 
@@ -169,6 +173,9 @@ export class PoolComponent implements OnInit, OnDestroy {
           { [`${pool}URL`]: url, [`${pool}Port`]: port },
           { emitEvent: false }
         );
+
+        urlControl.disable();
+        portControl.disable();
 
         urlControl.markAsDirty();
         portControl.markAsDirty();

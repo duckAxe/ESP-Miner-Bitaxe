@@ -14,14 +14,14 @@
                     </div>
                 </div>
 
-                <div class="field grid p-fluid" [ngClass]="{'hidden': form.get(pool + 'Pool')?.value?.url}">
+                <div class="field grid p-fluid">
                     <label [htmlFor]="pool + 'URL'" class="col-12 md:col-2 md:mb-0 md:pb-4">Stratum Host</label>
                     <div class="col-12 md:col-10">
                         <input pInputText type="text" [id]="pool + 'URL'" [formControlName]="pool + 'URL'" />
-                        <small class="text-500">Do not include 'stratum+tcp://' or port.</small>
+                        <small class="opacity-40">Do not include 'stratum+tcp://' or port.</small>
                     </div>
                 </div>
-                <div class="field grid p-fluid" [ngClass]="{'hidden': form.get(pool + 'Pool')?.value?.port}">
+                <div class="field grid p-fluid">
                     <label [htmlFor]="pool + 'Port'" class="col-12 md:col-2 md:mb-0">Stratum Port</label>
                     <div class="col-12 md:col-10">
                         <input pInputText [id]="pool + 'Port'" [formControlName]="pool + 'Port'" type="number" />
