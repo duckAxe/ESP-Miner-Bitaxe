@@ -30,9 +30,7 @@ export class PoolComponent implements OnInit, OnDestroy {
     private systemService: SystemService,
     private toastr: ToastrService,
     private loadingService: LoadingService
-  ) {
-
-  }
+  ) {}
 
   ngOnDestroy() {
     this.destroy$.next();
