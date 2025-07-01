@@ -5,9 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { startWith, takeUntil, Subject } from 'rxjs';
 import { LoadingService } from 'src/app/services/loading.service';
 import { SystemService } from 'src/app/services/system.service';
+import { PRESET_POOLS, PresetPool } from 'src/app/constants/preset-pools';
 
 type PoolType = 'stratum' | 'fallbackStratum';
-type PresetPool = { name: string, value: { url: string, port: number } | {} };
 
 @Component({
   selector: 'app-pool',
@@ -184,26 +184,11 @@ export class PoolComponent implements OnInit, OnDestroy {
   }
 
   get presetPools(): PresetPool[] {
-    const pools = [
-      { name: 'Public Pool', value: { url: 'public-pool.io', port: 21496 } },
-      { name: 'OCEAN', value: { url: 'mine.ocean.xyz', port: 3334 } },
-      { name: 'Solo CKPool', value: { url: 'solo.ckpool.org', port: 3333 } },
-      { name: 'Solo CKPool EU', value: { url: 'eusolo.ckpool.org', port: 3333 } },
-      { name: 'Noderunners', value: { url: 'pool.noderunners.network', port: 1337 } },
-      { name: 'Satoshi Radio', value: { url: 'pool.satoshiradio.nl', port: 3333 } },
-      { name: 'SoloHash', value: { url: 'solo.solohash.co.uk', port: 3333 } },
-      { name: 'Nerdminer', value: { url: 'pool.nerdminer.de', port: 3333 } },
-      { name: 'Solomining', value: { url: 'pool.solomining.de', port: 3333 } },
-      { name: 'Blitz Pool', value: { url: 'blitzpool.yourdevice.ch', port: 3333 } },
-      { name: 'Braiins Solo', value: { url: 'solo.stratum.braiins.com', port: 3333 } },
-      { name: 'Parasite', value: { url: 'parasite.wtf', port: 42069 } },
-    ];
-
-    pools.sort((a, b) => a.name.localeCompare(b.name));
+    const sortedPools = [...PRESET_POOLS].sort((a, b) => a.name.localeCompare(b.name));
 
     return [
       { name: '- CUSTOM POOL -', value: {} },
-      ...pools
+      ...sortedPools
     ];
   }
 }
