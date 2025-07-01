@@ -10,7 +10,7 @@
 
                 { label: 'Uptime', value: data.info.uptimeSeconds | dateAgo, class: 'pb-3' },
                 { label: 'Wi-Fi Status', value: data.info.wifiStatus },
-                { label: 'Wi-Fi RSSI', value: data.info.wifiRSSI + 'dBm', valueClass: getWifiRssiColor(data.info.wifiRSSI), tooltip: getWifiRssiTooltip(data.info.wifiRSSI) },
+                { label: 'Wi-Fi RSSI', value: data.info.wifiRSSI + 'dBm', class: 'pb-3', valueClass: getWifiRssiColor(data.info.wifiRSSI), tooltip: getWifiRssiTooltip(data.info.wifiRSSI) },
                 { label: 'MAC Address', value: data.info.macAddr, class: 'pb-3' },
                 { label: 'Free Heap Memory', value: data.info.freeHeap, class: 'pb-3' },
                 { label: 'Firmware Version', value: data.info.version },
