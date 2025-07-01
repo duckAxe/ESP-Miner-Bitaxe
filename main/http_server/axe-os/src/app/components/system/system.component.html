@@ -31,8 +31,8 @@
             </tr>
 
             <tr *ngFor="let row of [
-                { label: 'MAC Address', value: data.info.version, class: 'pb-3' },
-                { label: 'Free Heap Memory', value: data.info.macAddr, class: 'pb-3' },
+                { label: 'MAC Address', value: data.info.macAddr, class: 'pb-3' },
+                { label: 'Free Heap Memory', value: data.info.freeHeap, class: 'pb-3' },
                 { label: 'Firmware Version', value: data.info.version },
                 { label: 'AxeOS Version', value: data.info.axeOSVersion },
                 { label: 'ESP-IDF Version', value: data.info.idfVersion.substr(1) },
