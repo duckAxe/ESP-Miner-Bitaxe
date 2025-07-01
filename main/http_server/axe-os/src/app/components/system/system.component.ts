@@ -49,4 +49,20 @@ export class SystemComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  getWifiRssiColor(rssi: number): string {
+    if (rssi > -50) return 'text-green-500';
+    if (rssi <= -50 && rssi > -60) return 'text-blue-500';
+    if (rssi <= -60 && rssi > -70) return 'text-orange-500';
+
+    return 'text-red-500';
+  }
+
+  getWifiRssiTooltip(rssi: number): string {
+    if (rssi > -50) return 'Excellent';
+    if (rssi <= -50 && rssi > -60) return 'Good';
+    if (rssi <= -60 && rssi > -70) return 'Fair';
+
+    return 'Weak';
+  }
 }
