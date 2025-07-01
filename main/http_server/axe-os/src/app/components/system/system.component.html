@@ -3,25 +3,17 @@
 
     <div class="card">
         <table>
-            <tr>
-                <td class="text-500 pb-3">Device Model</td>
-                <td class="pb-3">
-                    <span [class]="'text-' + data.asic.swarmColor + '-500'">
-                        {{data.asic.deviceModel || 'Other'}}
-                    </span>
-                    ({{data.asic.asicCount > 1 ? data.asic.asicCount + 'x ' : ''}}{{data.asic.ASICModel}})
-                </td>
+            <tr *ngFor="let row of [
+                { label: 'Device Model', value: data.asic.deviceModel || 'Other' },
+                { label: 'Board Version', value: data.info.boardVersion },
+                { label: 'Asic Type', value: (data.asic.asicCount > 1 ? data.asic.asicCount + 'x ' : ' ') + data.asic.ASICModel, class: 'pb-3' },
+                { label: 'Uptime', value: data.info.uptimeSeconds | dateAgo, class: 'pb-3' },
+                { label: 'Wi-Fi Status', value: data.info.wifiStatus },
+            ]">
+                <td class="text-500 vertical-align-top" [ngClass]="row.class">{{ row.label }}</td>
+                <td class="vertical-align-top" [ngClass]="row.class">{{ row.value }}</td>
             </tr>
 
-            <tr>
-                <td class="text-500 vertical-align-top pb-3">Uptime</td>
-                <td class="pb-3">{{data.info.uptimeSeconds | dateAgo}}</td>
-            </tr>
-
-            <tr>
-                <td class="text-500">Wi-Fi Status</td>
-                <td>{{data.info.wifiStatus}}</td>
-            </tr>
             <tr>
                 <td class="text-500 pb-3">Wi-Fi RSSI</td>
                 <td class="inline pb-3" [ngClass]="{
@@ -38,24 +30,15 @@
                 </td>
             </tr>
 
-            <tr>
-                <td class="text-500 pb-3">MAC Address</td>
-                <td class="pb-3">{{data.info.macAddr}}</td>
-            </tr>
-
-            <tr>
-                <td class="text-500 white-space-nowrap pb-3 pr-4">Free Heap Memory</td>
-                <td class="pb-3">{{data.info.freeHeap}}</td>
-            </tr>
-
             <tr *ngFor="let row of [
+                { label: 'MAC Address', value: data.info.version, class: 'pb-3' },
+                { label: 'Free Heap Memory', value: data.info.macAddr, class: 'pb-3' },
                 { label: 'Firmware Version', value: data.info.version },
                 { label: 'AxeOS Version', value: data.info.axeOSVersion },
                 { label: 'ESP-IDF Version', value: data.info.idfVersion.substr(1) },
-                { label: 'Board Version', value: data.info.boardVersion },
             ]">
-                <td class="text-500">{{ row.label }}</td>
-                <td>{{ row.value }}</td>
+                <td class="text-500 vertical-align-top pr-4" [ngClass]="row.class">{{ row.label }}</td>
+                <td class="vertical-align-top" [ngClass]="row.class">{{ row.value }}</td>
               </tr>
         </table>
     </div>
