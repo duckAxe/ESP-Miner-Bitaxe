@@ -10,7 +10,7 @@
                 { label: 'Uptime', value: data.info.uptimeSeconds | dateAgo, class: 'pb-3' },
                 { label: 'Wi-Fi Status', value: data.info.wifiStatus },
             ]">
-                <td class="text-500 vertical-align-top" [ngClass]="row.class">{{ row.label }}</td>
+                <td class="text-500 vertical-align-top white-space-nowrap pr-4" [ngClass]="row.class">{{ row.label }}</td>
                 <td class="vertical-align-top" [ngClass]="row.class">{{ row.value }}</td>
             </tr>
 
@@ -37,7 +37,7 @@
                 { label: 'AxeOS Version', value: data.info.axeOSVersion },
                 { label: 'ESP-IDF Version', value: data.info.idfVersion.substr(1) },
             ]">
-                <td class="text-500 vertical-align-top pr-4" [ngClass]="row.class">{{ row.label }}</td>
+                <td class="text-500 vertical-align-top white-space-nowrap pr-4" [ngClass]="row.class">{{ row.label }}</td>
                 <td class="vertical-align-top" [ngClass]="row.class">{{ row.value }}</td>
               </tr>
         </table>
