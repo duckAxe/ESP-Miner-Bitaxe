@@ -328,10 +328,11 @@ export class SwarmComponent implements OnInit, OnDestroy {
 
   // Fallback logic to derive deviceModel and swarmColor, can be removed after some time
   private fallbackDeviceModel(data: any): any {
-    if (data.deviceModel && data.swarmColor) return data;
+    if (data.deviceModel && data.swarmColor && data.poolDifficulty) return data;
     const deviceModel = data.deviceModel || this.deriveDeviceModel(data);
     const swarmColor = data.swarmColor || this.deriveSwarmColor(deviceModel);
-    return { ...data, deviceModel, swarmColor };
+    const poolDifficulty = data.poolDifficulty || data.stratumDiff;
+    return { ...data, deviceModel, swarmColor, poolDifficulty };
   }
 
   private deriveDeviceModel(data: any): string {
