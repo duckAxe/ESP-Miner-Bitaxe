@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, timer, Subject, combineLatest } from 'rxjs';
-import { switchMap, shareReplay, first, takeUntil, map } from 'rxjs/operators';
+import { Observable, Subject, combineLatest, switchMap, shareReplay, first, takeUntil, map, timer } from 'rxjs';
 import { SystemService } from 'src/app/services/system.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ISystemInfo } from 'src/models/ISystemInfo';
