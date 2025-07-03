@@ -9,6 +9,7 @@
                 { label: 'Asic Type', value: (data.asic.asicCount > 1 ? data.asic.asicCount + 'x ' : ' ') + data.asic.ASICModel, class: 'pb-3' },
 
                 { label: 'Uptime', value: data.info.uptimeSeconds | dateAgo, class: 'pb-3' },
+                { label: 'Wi-Fi SSID', value: data.info.ssid },
                 { label: 'Wi-Fi Status', value: data.info.wifiStatus },
                 { label: 'Wi-Fi RSSI', value: data.info.wifiRSSI + 'dBm', class: 'pb-3', valueClass: getWifiRssiColor(data.info.wifiRSSI), tooltip: getWifiRssiTooltip(data.info.wifiRSSI) },
                 { label: 'MAC Address', value: data.info.macAddr, class: 'pb-3' },
