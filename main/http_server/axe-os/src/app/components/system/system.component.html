@@ -3,21 +3,7 @@
 
     <div class="card">
         <table>
-            <tr *ngFor="let row of [
-                { label: 'Device Model', value: data.asic.deviceModel || 'Other', valueClass: 'text-' + data.asic.swarmColor + '-500' },
-                { label: 'Board Version', value: data.info.boardVersion },
-                { label: 'Asic Type', value: (data.asic.asicCount > 1 ? data.asic.asicCount + 'x ' : ' ') + data.asic.ASICModel, class: 'pb-3' },
-
-                { label: 'Uptime', value: data.info.uptimeSeconds | dateAgo, class: 'pb-3' },
-                { label: 'Wi-Fi SSID', value: data.info.ssid },
-                { label: 'Wi-Fi Status', value: data.info.wifiStatus },
-                { label: 'Wi-Fi RSSI', value: data.info.wifiRSSI + 'dBm', class: 'pb-3', valueClass: getWifiRssiColor(data.info.wifiRSSI), tooltip: getWifiRssiTooltip(data.info.wifiRSSI) },
-                { label: 'MAC Address', value: data.info.macAddr, class: 'pb-3' },
-                { label: 'Free Heap Memory', value: data.info.freeHeap, class: 'pb-3' },
-                { label: 'Firmware Version', value: data.info.version },
-                { label: 'AxeOS Version', value: data.info.axeOSVersion },
-                { label: 'ESP-IDF Version', value: data.info.idfVersion.substr(1) },
-            ]">
+            <tr *ngFor="let row of getSystemRows(data)">
                 <td class="text-500 vertical-align-top white-space-nowrap pr-4" [ngClass]="row.class">{{ row.label }}</td>
                 <td class="inline vertical-align-top select-none pr-2" [ngClass]="(row.class || '') + ' ' + (row.valueClass || '')" [pTooltip]="row.tooltip">{{ row.value }}</td>
             </tr>

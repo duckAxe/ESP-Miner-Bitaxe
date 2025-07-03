@@ -2,8 +2,22 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subject, combineLatest, switchMap, shareReplay, first, takeUntil, map, timer } from 'rxjs';
 import { SystemService } from 'src/app/services/system.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { DateAgoPipe } from 'src/app/pipes/date-ago.pipe';
 import { ISystemInfo } from 'src/models/ISystemInfo';
 import { ISystemASIC } from 'src/models/ISystemASIC';
+
+type TableRow = {
+  label: string;
+  value: string;
+  class?: string;
+  valueClass?: string;
+  tooltip?: string;
+}
+
+type CombinedData = {
+  info: ISystemInfo,
+  asic: ISystemASIC
+};
 
 @Component({
   selector: 'app-system',
@@ -63,5 +77,23 @@ export class SystemComponent implements OnInit, OnDestroy {
     if (rssi <= -60 && rssi > -70) return 'Fair';
 
     return 'Weak';
+  }
+
+  getSystemRows(data: CombinedData): TableRow[] {
+    return [
+      { label: 'Device Model', value: data.asic.deviceModel || 'Other', valueClass: 'text-' + data.asic.swarmColor + '-500' },
+      { label: 'Board Version', value: data.info.boardVersion },
+      { label: 'Asic Type', value: (data.asic.asicCount > 1 ? data.asic.asicCount + 'x ' : ' ') + data.asic.ASICModel, class: 'pb-3' },
+
+      { label: 'Uptime', value: DateAgoPipe.transform(data.info.uptimeSeconds), class: 'pb-3' },
+      { label: 'Wi-Fi SSID', value: data.info.ssid },
+      { label: 'Wi-Fi Status', value: data.info.wifiStatus },
+      { label: 'Wi-Fi RSSI', value: data.info.wifiRSSI + 'dBm', class: 'pb-3', valueClass: this.getWifiRssiColor(data.info.wifiRSSI), tooltip: this.getWifiRssiTooltip(data.info.wifiRSSI) },
+      { label: 'MAC Address', value: data.info.macAddr, class: 'pb-3' },
+      { label: 'Free Heap Memory', value: data.info.freeHeap.toString(), class: 'pb-3' },
+      { label: 'Firmware Version', value: data.info.version },
+      { label: 'AxeOS Version', value: data.info.axeOSVersion },
+      { label: 'ESP-IDF Version', value: data.info.idfVersion.substr(1) },
+    ];
   }
 }
