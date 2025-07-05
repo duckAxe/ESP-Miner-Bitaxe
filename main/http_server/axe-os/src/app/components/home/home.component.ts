@@ -357,8 +357,6 @@ export class HomeComponent {
   }
 
   public updateMessages(info: ISystemInfo) {
-    const host = window.location.hostname;
-
     if (info.overheat_mode) {
       this.messages.push({
         severity: 'error',
@@ -394,7 +392,7 @@ export class HomeComponent {
       });
     }
 
-    if (!(/^(\d{1,3}\.){3}\d{1,3}$/.test(host) || host === 'localhost')) {
+    if (window.location.hostname.toLowerCase().includes(info.hostname.toLowerCase())) {
       this.messages.push({
         severity: 'warn',
         text: 'To avoid unexpected issues, AxeOS should be accessed using its IP address instead of the hostname.'
