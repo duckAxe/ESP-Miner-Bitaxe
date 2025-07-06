@@ -75,3 +75,14 @@
         opacity: 1;
     }
 }
+
+.sensitive-content-hidden {
+    [sensitive-content] {
+        font-size: 0;
+
+        &::before {
+            content: '•••••';
+            font-size: $scale;
+        }
+    }
+}
