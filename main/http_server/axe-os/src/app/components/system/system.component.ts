@@ -93,7 +93,7 @@ export class SystemComponent implements OnInit, OnDestroy {
       { label: 'Free Heap Memory', value: data.info.freeHeap.toString(), class: 'pb-3' },
       { label: 'Firmware Version', value: data.info.version },
       { label: 'AxeOS Version', value: data.info.axeOSVersion },
-      { label: 'ESP-IDF Version', value: data.info.idfVersion.substr(1) },
+      { label: 'ESP-IDF Version', value: data.info.idfVersion },
     ];
   }
 }
