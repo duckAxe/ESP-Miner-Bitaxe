@@ -31,7 +31,6 @@ export interface ISystemInfo {
     sharesRejected: number,
     sharesRejectedReasons: ISharesRejectedStat[];
     uptimeSeconds: number,
-    asicCount: number,
     smallCoreCount: number,
     ASICModel: string,
     stratumURL: string,
@@ -44,6 +43,7 @@ export interface ISystemInfo {
     fallbackStratumUser: string,
     fallbackStratumSuggestedDifficulty: number,
     fallbackStratumExtranonceSubscribe: number,
+    poolDifficulty: number,
     responseTime: number,
     isUsingFallbackStratum: boolean,
     frequency: number,

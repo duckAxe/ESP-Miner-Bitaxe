@@ -4,15 +4,13 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin, catchError, from, map, mergeMap, of, take, timeout, toArray, Observable } from 'rxjs';
 import { LocalStorageService } from 'src/app/local-storage.service';
-import { SystemService } from 'src/app/services/system.service';
-import { ISystemASIC } from 'src/models/ISystemASIC';
 import { ModalComponent } from '../modal/modal.component';
 
-const SWARM_DATA = 'SWARM_DATA'
+const SWARM_DATA = 'SWARM_DATA';
 const SWARM_REFRESH_TIME = 'SWARM_REFRESH_TIME';
-const SWARM_SORTING = 'SWARM_SORTING'
+const SWARM_SORTING = 'SWARM_SORTING';
 
-type SwarmDevice = { IP: string; [key: string]: any };
+type SwarmDevice = { IP: string; ASICModel: string; deviceModel: string; swarmColor: string; asicCount: number; [key: string]: any };
 
 @Component({
   selector: 'app-swarm',
@@ -35,7 +33,7 @@ export class SwarmComponent implements OnInit, OnDestroy {
   public refreshIntervalTime = 30;
   public refreshTimeSet = 30;
 
-  public totals: { hashRate: number, power: number, bestDiff: string } = { hashRate: 0, power: 0, bestDiff: '0' };
+  public totals: { hashRate: number; power: number; bestDiff: string } = { hashRate: 0, power: 0, bestDiff: '0' };
 
   public isRefreshing = false;
 
@@ -46,7 +44,6 @@ export class SwarmComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private systemService: SystemService,
     private toastr: ToastrService,
     private localStorageService: LocalStorageService,
     private httpClient: HttpClient
@@ -82,14 +79,14 @@ export class SwarmComponent implements OnInit, OnDestroy {
       this.scanNetwork();
     } else {
       this.swarm = swarmData;
-      this.refreshList();
+      this.refreshList(true);
     }
 
     this.refreshIntervalRef = window.setInterval(() => {
       if (!this.scanning && !this.isRefreshing) {
         this.refreshIntervalTime--;
         if (this.refreshIntervalTime <= 0) {
-          this.refreshList();
+          this.refreshList(false);
         }
       }
     }, 1000);
@@ -115,7 +112,7 @@ export class SwarmComponent implements OnInit, OnDestroy {
     const broadcast = network | ~netmaskInt;
     return { start: network + 1, end: broadcast - 1 };
   }
-  
+
   scanNetwork() {
     this.scanning = true;
 
@@ -139,14 +136,16 @@ export class SwarmComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getAllDeviceInfo(ips: string[], errorHandler: (error: any, ip: string) => Observable<SwarmDevice[] | null>) {
+  private getAllDeviceInfo(ips: string[], errorHandler: (error: any, ip: string) => Observable<SwarmDevice[] | null>, fetchAsic: boolean = true) {
     return from(ips).pipe(
       mergeMap(IP => forkJoin({
         info: this.httpClient.get(`http://${IP}/api/system/info`),
-        asic: this.httpClient.get(`http://${IP}/api/system/asic`)
+        asic: fetchAsic ? this.httpClient.get(`http://${IP}/api/system/asic`).pipe(catchError(() => of({}))) : of({})
       }).pipe(
         map(({ info, asic }) => {
-          return { IP, ...info, ...asic };
+          const existingDevice = this.swarm.find(device => device.IP === IP);
+          const result = { IP, ...(existingDevice ? existingDevice : {}), ...info, ...asic };
+          return this.fallbackDeviceModel(result);
         }),
         timeout(5000),
         catchError(error => errorHandler(error, IP))
@@ -166,11 +165,9 @@ export class SwarmComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const uri = `http://${IP}`;
-
     forkJoin({
-      info: this.systemService.getInfo(uri),
-      asic: this.systemService.getAsicSettings(uri)
+      info: this.httpClient.get<any>(`http://${IP}/api/system/info`),
+      asic: this.httpClient.get<any>(`http://${IP}/api/system/asic`).pipe(catchError(() => of({})))
     }).subscribe(({ info, asic }) => {
       if (!info.ASICModel || !asic.ASICModel) {
         return;
@@ -189,20 +186,24 @@ export class SwarmComponent implements OnInit, OnDestroy {
   }
 
   public restart(axe: any) {
-    this.systemService.restart(`http://${axe.IP}`).pipe(
+    this.httpClient.post(`http://${axe.IP}/api/system/restart`, {}).pipe(
       catchError(error => {
-        this.toastr.error(`Failed to restart device at ${axe.IP}`, 'Error');
-        return of(null);
+        if (error.status === 0 || error.status === 200 || error.name === 'HttpErrorResponse') {
+          return of('success');
+        } else {
+          this.toastr.error(`Failed to restart device at ${axe.IP}`, 'Error');
+          return of(null);
+        }
       })
     ).subscribe(res => {
-      if (res !== null) {
+      if (res !== null && res == 'success') {
         this.toastr.success(`Bitaxe at ${axe.IP} restarted`, 'Success');
       }
     });
   }
 
   public remove(axeOs: any) {
-    this.swarm = this.swarm.filter(axe => axe.IP != axeOs.IP);
+    this.swarm = this.swarm.filter(axe => axe.IP !== axeOs.IP);
     this.localStorageService.setObject(SWARM_DATA, this.swarm);
     this.calculateTotals();
   }
@@ -221,10 +222,11 @@ export class SwarmComponent implements OnInit, OnDestroy {
       bestDiff: 0,
       version: 0,
       uptimeSeconds: 0,
+      poolDifficulty: 0,
     });
   };
 
-  public refreshList() {
+  public refreshList(fetchAsic: boolean = true) {
     if (this.scanning) {
       return;
     }
@@ -233,7 +235,7 @@ export class SwarmComponent implements OnInit, OnDestroy {
     const ips = this.swarm.map(axeOs => axeOs.IP);
     this.isRefreshing = true;
 
-    this.getAllDeviceInfo(ips, this.refreshErrorHandler).subscribe({
+    this.getAllDeviceInfo(ips, this.refreshErrorHandler, fetchAsic).subscribe({
       next: (result) => {
         this.swarm = result;
         this.sortSwarm();
@@ -268,6 +270,8 @@ export class SwarmComponent implements OnInit, OnDestroy {
   private sortSwarm() {
     this.swarm.sort((a, b) => {
       let comparison = 0;
+      const fieldType = typeof a[this.sortField];
+
       if (this.sortField === 'IP') {
         // Split IP into octets and compare numerically
         const aOctets = a[this.sortField].split('.').map(Number);
@@ -278,9 +282,9 @@ export class SwarmComponent implements OnInit, OnDestroy {
             break;
           }
         }
-      } else if (typeof a[this.sortField] === 'number') {
+      } else if (fieldType === 'number') {
         comparison = a[this.sortField] - b[this.sortField];
-      } else {
+      } else if (fieldType === 'string') {
         comparison = a[this.sortField].localeCompare(b[this.sortField], undefined, { numeric: true });
       }
       return this.sortDirection === 'asc' ? comparison : -comparison;
@@ -312,8 +316,46 @@ export class SwarmComponent implements OnInit, OnDestroy {
       .reduce((max, curr) => this.compareBestDiff(max, curr), '0');
   }
 
-  get getFamilies(): ISystemASIC[] {
+  get getFamilies(): SwarmDevice[] {
     return this.swarm.filter((v, i, a) =>
-      a.findIndex(({ familyName }) => v.familyName === familyName) === i);
+      a.findIndex(({ deviceModel, ASICModel, asicCount }) =>
+        v.deviceModel === deviceModel &&
+        v.ASICModel === ASICModel &&
+        v.asicCount === asicCount
+      ) === i
+    );
+  }
+
+  // Fallback logic to derive deviceModel and swarmColor, can be removed after some time
+  private fallbackDeviceModel(data: any): any {
+    if (data.deviceModel && data.swarmColor && data.poolDifficulty) return data;
+    const deviceModel = data.deviceModel || this.deriveDeviceModel(data);
+    const swarmColor = data.swarmColor || this.deriveSwarmColor(deviceModel);
+    const poolDifficulty = data.poolDifficulty || data.stratumDiff;
+    return { ...data, deviceModel, swarmColor, poolDifficulty };
+  }
+
+  private deriveDeviceModel(data: any): string {
+    if (data.boardVersion && data.boardVersion.length > 1) {
+      if (data.boardVersion[0] == "1" || data.boardVersion == "2.2") return "Max";
+      if (data.boardVersion[0] == "2" || data.boardVersion == "0.11") return "Ultra";
+      if (data.boardVersion[0] == "3") return "UltraHex";
+      if (data.boardVersion[0] == "4") return "Supra";
+      if (data.boardVersion[0] == "6") return "Gamma";
+      if (data.boardVersion[0] == "8") return "GammaTurbo";
+    }
+    return 'Other';
+  }
+
+  private deriveSwarmColor(deviceModel: string): string {
+    switch (deviceModel) {
+      case 'Max':        return 'red';
+      case 'Ultra':      return 'purple';
+      case 'Supra':      return 'blue';
+      case 'UltraHex':   return 'orange';
+      case 'Gamma':      return 'green';
+      case 'GammaTurbo': return 'cyan';
+      default:           return 'gray';
+    }
   }
 }

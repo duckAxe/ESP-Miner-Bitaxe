@@ -49,7 +49,6 @@ export class SystemService {
         sharesRejected: 0,
         sharesRejectedReasons: [],
         uptimeSeconds: 38,
-        asicCount: 1,
         smallCoreCount: 672,
         ASICModel: "BM1366",
         stratumURL: "public-pool.io",
@@ -62,6 +61,7 @@ export class SystemService {
         fallbackStratumUser: "bc1q99n3pu025yyu0jlywpmwzalyhm36tg5u37w20d.bitaxe-U1",
         fallbackStratumSuggestedDifficulty: 1000,
         fallbackStratumExtranonceSubscribe: 0,
+        poolDifficulty: 1000,
         responseTime: 10,
         isUsingFallbackStratum: true,
         frequency: 485,
@@ -167,8 +167,9 @@ export class SystemService {
     // Mock data for development
     return of({
       ASICModel: "BM1366",
-      familyName: "Ultra",
+      deviceModel: "Ultra",
       swarmColor: "purple",
+      asicCount: 1,
       defaultFrequency: 485,
       frequencyOptions: [400, 425, 450, 475, 485, 500, 525, 550, 575],
       defaultVoltage: 1200,
