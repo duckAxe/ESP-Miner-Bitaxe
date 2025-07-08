@@ -47,6 +47,6 @@ import { WifiIconComponent } from '../components/wifi-icon/wifi-icon.component';
         PrimeNGModule,
         TooltipModule,
     ],
-    exports: [AppLayoutComponent]
+    exports: [AppLayoutComponent, WifiIconComponent]
 })
 export class AppLayoutModule { }
