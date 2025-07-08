@@ -154,7 +154,7 @@ export class HomeComponent {
                 label += ': ';
               }
               if (tooltipItem.dataset.label === 'ASIC Temp') {
-                label += tooltipItem.raw + '°C';
+                label += tooltipItem.raw + ' °C';
               } else {
                 label += HashSuffixPipe.transform(tooltipItem.raw);
               }
@@ -194,7 +194,7 @@ export class HomeComponent {
           position: 'right',
           ticks: {
             color: textColorSecondary,
-            callback: (value: number) => value + '°C'
+            callback: (value: number) => value + ' °C'
           },
           grid: {
             drawOnChartArea: false,
