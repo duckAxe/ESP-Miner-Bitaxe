@@ -340,7 +340,7 @@ export class HomeComponent {
     const efficiencies = hashrateData.map((hashrate, index) => {
       const power = powerData[index] || 0;
       if (hashrate > 0) {
-        return power / (hashrate / 1000000000000); // Convert to J/TH
+        return power / (hashrate / 1000000000000); // Convert to J/Th
       } else {
         return power; // in this case better than infinity or NaN
       }
