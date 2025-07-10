@@ -30,7 +30,7 @@ export class QuicklinkService {
           {search: 'satoshiradio.nl', url: `https://pool.satoshiradio.nl/user/${user}`},
           {search: 'solohash.co.uk', url: `https://solohash.co.uk/user/${user}`},
           {search: 'solo.stratum.braiins.com', url: `https://solo.braiins.com/stats/${user}`},
-          {search: 'parasite.wtf', url: `https://solo.braiins.com/stats/${user}`},
+          {search: 'parasite.wtf', url: `https://parasite.space/user/${user}`},
           {regex: /^(eu|au)?solo[46]?.ckpool\.org/, url: `https://$1solostats.ckpool.org/users/${user}`},
         ];
 
