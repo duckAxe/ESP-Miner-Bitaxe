@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Observable, switchMap, shareReplay, map, timer } from 'rxjs';
+import { Observable, switchMap, shareReplay, map, timer, distinctUntilChanged } from 'rxjs';
 import { HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { FileUploadHandlerEvent, FileUpload } from 'primeng/fileupload';
@@ -40,6 +40,7 @@ export class UpdateComponent {
 
     this.info$ = timer(0, 5000).pipe(
       switchMap(() => this.systemService.getInfo()),
+      distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
       shareReplay(1)
     );
   }
