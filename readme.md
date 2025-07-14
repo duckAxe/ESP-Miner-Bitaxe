@@ -61,7 +61,7 @@ Available API endpoints:
 
 **PATCH**
 
-* `/api/system/` Update system settings
+* `/api/system` Update system settings
 
 Some API examples in `curl`:
 
