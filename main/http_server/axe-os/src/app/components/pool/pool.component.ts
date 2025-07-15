@@ -18,7 +18,7 @@ export class PoolComponent implements OnInit {
 
   public pools: PoolType[] = ['stratum', 'fallbackStratum'];
   public showPassword = {'stratum': false, 'fallbackStratum': false};
-  public showAdvancedOptions = false;
+  public showAdvancedOptions = {'stratum': false, 'fallbackStratum': false};
 
   @Input() uri = '';
 
