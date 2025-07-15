@@ -45,7 +45,9 @@
                     </legend>
 
                     <div *ngIf="showAdvancedOptions[pool]" class="field grid p-fluid mt-4">
-                        <label [htmlFor]="pool + 'SuggestedDifficulty'" class="col-12 md:col-2 md:mb-0">Suggested Difficulty</label>
+                        <label [htmlFor]="pool + 'SuggestedDifficulty'" class="col-12 md:col-2 md:mb-0">Suggested Difficulty
+                            <i class="pi pi-info-circle text-xs px-1" pTooltip="The minimum difficulty at which you device submits a share."></i>
+                        </label>
                         <div class="col-12 md:col-10">
                             <input pInputText [id]="pool + 'SuggestedDifficulty'" [formControlName]="pool + 'SuggestedDifficulty'" type="number" />
                         </div>
