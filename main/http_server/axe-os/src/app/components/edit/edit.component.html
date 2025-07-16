@@ -63,14 +63,14 @@
               <p-slider [min]="35" [max]="66" formControlName="temptarget"></p-slider>
           </div>
           <div class="col-12">
-              <label>Minimum Fan Speed {{form.controls['minfanspeed'].value}}%</label>
+              <label>Minimum Fan Speed {{form.controls['minfanspeed'].value}} %</label>
               <p-slider [min]="0" [max]="99" formControlName="minfanspeed"></p-slider>
           </div>
       </div>
 
         <div *ngIf="form.controls['autofanspeed'].value != true">
             <div class="col-12" *ngIf="form.controls['autofanspeed'].value != true">
-                <label>Fan Speed {{form.controls['fanspeed'].value}}%
+                <label>Fan Speed {{form.controls['fanspeed'].value}} %
                     <b *ngIf="form.controls['fanspeed'].value < 33" style="color:red">Danger: Could Cause
                         Overheating</b> <b *ngIf="form.controls['fanspeed'].value == 100" style="color:	#F2A900">S19
                         Simulator</b></label>
