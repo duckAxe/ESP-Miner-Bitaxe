@@ -1,11 +1,11 @@
 <ng-container *ngIf="info$ | async as info">
     <!-- Temp warning alert -->
     <p-message *ngIf="info.overheat_mode" severity="error" styleClass="w-full mb-4 py-4 border-round-xl"
-        text="Bitaxe has overheated - See settings">
+        text="Device has overheated - See settings">
     </p-message>
 
     <p-message *ngIf="!info.frequency || info.frequency < 400" severity="warn" styleClass="w-full mb-4 py-4 border-round-xl"
-        text="Bitaxe frequency is set low - See settings">
+        text="Device frequency is set low - See settings">
     </p-message>
 
     <p-message *ngIf="info.power_fault" severity="error" styleClass="w-full mb-4 py-4 border-round-xl"
@@ -13,7 +13,7 @@
     </p-message>
 
     <p-message *ngIf="info.isUsingFallbackStratum" severity="warn" styleClass="w-full mb-4 py-4 border-round-xl"
-        text="Using fallback pool - Share stats reset. Check Pool Settings and or / reboot Bitaxe">
+        text="Using fallback pool - Share stats reset. Check Pool Settings and / or reboot Device">
     </p-message>
 
     <p-message *ngIf="info.version !== info.axeOSVersion" severity="warn" styleClass="w-full mb-4 py-4 border-round-xl"
