@@ -1,0 +1,11 @@
+<ng-container *ngIf="tooltip; else noTooltip">
+    <span *ngIf="preLastWords">{{ preLastWords }}&nbsp;</span>
+
+    <span class="white-space-nowrap">
+        {{ lastWord }} <tooltip-icon [tooltip]="tooltip"></tooltip-icon>
+    </span>
+</ng-container>
+
+<ng-template #noTooltip>
+    {{ text }}
+</ng-template>
