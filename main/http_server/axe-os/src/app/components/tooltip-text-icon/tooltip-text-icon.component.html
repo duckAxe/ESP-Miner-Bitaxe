@@ -1,9 +1,17 @@
 <ng-container *ngIf="tooltip; else noTooltip">
-    <span *ngIf="preLastWords">{{ preLastWords }}&nbsp;</span>
+    <ng-container *ngIf="split; else noSplit">
+        <span *ngIf="preLastWords">{{ preLastWords }}&nbsp;</span>
 
-    <span class="white-space-nowrap">
-        {{ lastWord }} <tooltip-icon [tooltip]="tooltip" />
-    </span>
+        <span class="white-space-nowrap">
+            {{ lastWord }}<tooltip-icon [tooltip]="tooltip" />
+        </span>
+    </ng-container>
+
+    <ng-template #noSplit>
+        <span class="white-space-nowrap">
+            {{ text }}<tooltip-icon [tooltip]="tooltip" />
+        </span>
+    </ng-template>
 </ng-container>
 
 <ng-template #noTooltip>

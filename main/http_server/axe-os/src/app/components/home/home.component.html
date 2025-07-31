@@ -100,7 +100,8 @@
                         </span>
                         <tooltip-text-icon
                             [text]="'(' + ((sharesRejectedReason.count / (info.sharesAccepted + info.sharesRejected)) * 100 | number:'1.2-2') + ' %)'"
-                            [tooltip]="getRejectionExplanation(sharesRejectedReason.message)" />
+                            [tooltip]="getRejectionExplanation(sharesRejectedReason.message)"
+                            [split]=false />
                     </ng-container>
                 </div>
             </div>
