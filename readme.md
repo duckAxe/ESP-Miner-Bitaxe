@@ -51,7 +51,7 @@ Available API endpoints:
 * `/api/system/asic` Get ASIC settings information
 * `/api/system/statistics` Get system statistics (data logging should be activated)
 * `/api/system/statistics/dashboard` Get system statistics for dashboard
-* `/api/system/wifi/scan` Scan for available WiFi networks
+* `/api/system/wifi/scan` Scan for available Wi-Fi networks
 
 **POST**
 
@@ -63,16 +63,42 @@ Available API endpoints:
 
 * `/api/system` Update system settings
 
-Some API examples in `curl`:
+### API examples in `curl`:
 
 ```bash
 # Get system information
 curl http://YOUR-BITAXE-IP/api/system/info
 
+# Get ASIC settings information
+curl http://YOUR-BITAXE-IP/api/system/asic
+
+# Get system statistics
+curl http://YOUR-BITAXE-IP/api/system/statistics
+
+# Get dashboard statistics
+curl http://YOUR-BITAXE-IP/api/system/statistics/dashboard
+
+# Get available Wi-Fi networks
+curl http://YOUR-BITAXE-IP/api/system/wifi/scan
+
+
 # Restart the system
 curl -X POST http://YOUR-BITAXE-IP/api/system/restart
 
-# Change system settings
+# Update system firmware
+curl -X POST \
+     -H "Content-Type: application/octet-stream" \
+     --data-binary "@esp-miner.bin" \
+     http://YOUR-BITAXE-IP/api/system/OTA
+
+# Update AxeOS
+curl -X POST \
+     -H "Content-Type: application/octet-stream" \
+     --data-binary "@www.bin" \
+     http://YOUR-BITAXE-IP/api/system/OTAWWW
+
+
+# Update system settings
 curl -X PATCH http://YOUR-BITAXE-IP/api/system \
      -H "Content-Type: application/json" \
      -d '{"fanspeed": "desired_speed_value"}'
