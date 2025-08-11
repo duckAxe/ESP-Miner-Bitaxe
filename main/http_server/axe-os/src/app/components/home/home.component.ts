@@ -337,9 +337,9 @@ export class HomeComponent {
   }
 
   onPoolChange(event: { originalEvent: Event; value: PoolLabel }) {
-    const isUsingFallbackStratum = event.value === 'Fallback';
+    const useFallbackStratum = Number(event.value === 'Fallback');
 
-    this.systemService.updateSystem('', { isUsingFallbackStratum })
+    this.systemService.updateSystem('', { useFallbackStratum })
       .pipe(
         this.loadingService.lockUIUntilComplete(),
         switchMap(() =>
