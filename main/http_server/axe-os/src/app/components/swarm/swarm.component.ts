@@ -294,7 +294,7 @@ export class SwarmComponent implements OnInit, OnDestroy {
   private calculateTotals() {
     this.totals.hashRate = this.swarm.reduce((sum, axe) => sum + (axe.hashRate || 0), 0);
     this.totals.power = this.swarm.reduce((sum, axe) => sum + (axe.power || 0), 0);
-    this.totals.bestDiff = this.swarm.reduce((sum, axe) => sum + (axe.bestDiff || 0), 0);
+    this.totals.bestDiff = this.swarm.reduce((max, axe) => Math.max(max, axe.bestDiff || 0), 0);
   }
 
   get getFamilies(): SwarmDevice[] {
